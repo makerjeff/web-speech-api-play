@@ -1,0 +1,12 @@
+{
+  "name": "web-speech-api-play",
+  "version": "0.1.0",
+  "description": "Playing with the WebSpeech API",
+  "private": true,
+  "author": "Jefferson Wu <makerjeffwu@gmail.com> (www.jeffersonwu.com)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "latest",
+    "colors": "latest"
+  }
+}
