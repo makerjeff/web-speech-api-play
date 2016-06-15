@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spitch</title>
+</head>
+<body>
+
+
+<div id="container">
+    <div id="title">Spitch Aye-Pee-Eye</div>
+
+    <button id="start_button">start listening</button>
+
+
+</div>
+
+
+<script>
+
+    if(!('webkitSpeechRecognition' in window)) {
+        upgrade();
+    } else {
+        var recog = new webkitSpeechRecognition();
+
+        recog.continuous = true;        //default to false, stops after user stops talking
+        recog.interimResults = true;    //default to false, does not show inbetween
+    }
+
+    //Jeff-Made-Buttons
+    var buttonState = false;
+    var startButton = document.getElementById('start_button');
+
+    //test
+    startButton.addEventListener('click', function(e){
+        buttonState = !buttonState;
+        console.log(buttonState);
+        startButton.innerText = buttonState;
+    });
+
+</script>
+</body>
+</html>
