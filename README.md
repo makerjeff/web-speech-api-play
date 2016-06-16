@@ -2,6 +2,8 @@
 
 ## Usage 
 
+    nodemon spartan-express-server.js <port number>
+
 ## Release History
 
 ## Notes
