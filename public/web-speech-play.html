@@ -32,41 +32,91 @@
 
 <script>
 
+    var keys  = [
+        {name: 'monkey', string: 'I am a monkey.'},
+        {name: 'starfish', string: 'I am a starfish'},
+        {name: 'cat', string: 'I am a cat'}
+    ];
+
+    // speech grammar format
+    var grammar = '#JSGF V1.0; grammar colors; public <color> = red | green | blue | black ;';
+
     // feed the right module into chrome
     var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
     var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
     var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-    //Jeff-Made-Buttons
-    var buttonState = false;
-    var startButton = document.getElementById('start_button');
-    var title = document.getElementById('title');
-    var debug = document.getElementById('debug_messages');
+    var recognition = new SpeechRecognition();
+    var speechRecognitionList = new SpeechGrammarList();
 
-    //test
-    startButton.addEventListener('click', function(e){
-        buttonState = !buttonState;
-        console.log(buttonState);
-        startButton.innerText = buttonState;
+    speechRecognitionList.addFromString(grammar, 1);
+    recognition.grammars = speechRecognitionList;
 
-        if(buttonState == true) {
-            title.classList.remove('normal');
-            debug.innerHTML = 'listening!';
+    //set params
+    //recognition.continuous = true;
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
 
-            if(title.classList.contains('red')) {
-                title.classList.remove('red');
-                title.classList.add('green');
-                console.log('I see red! Deleting now.');
-            } else {
-                title.classList.add('green');
-            }
-        } else {
-            title.classList.remove('green');
-            title.classList.add('red');
-            debug.innerHTML = 'not listening.';
-        }
+    var diagnostic = document.getElementById('debug_messages');
+    var bg = document.getElementById('container');
+
+    document.body.addEventListener('click', function(e){
+        recognition.start();
+        console.log('ready to listen!');
     });
 
+    recognition.onresult = function(e) {
+        var color = e.results[0][0].transcript;
+        diagnostic.textContent = 'Result received: ' + color + '.';
+        bg.style.backgroundColor = color;
+        console.log('Confidence level: ' + event.results[0][0].confidence);
+    };
+
+    recognition.onspeechend = function() {
+        recognition.stop();
+    };
+
+    recognition.onnomatch = function(e){
+        diagnostic.textContent = 'I didn\'t recognize that. ';
+    };
+
+    recognition.onerror = function(e) {
+        diagnostic.textContent = 'Err0r! : ' + e.error;
+    };
+
+
+    /* ============= JEFF DEBUG CONTROLS ============= */
+//    //Jeff-Made-Buttons
+//    var buttonState = false;
+//    var startButton = document.getElementById('start_button');
+//    var title = document.getElementById('title');
+//    var debug = document.getElementById('debug_messages');
+//
+//    //test
+//    startButton.addEventListener('click', function(e){
+//        buttonState = !buttonState;
+//        console.log(buttonState);
+//        startButton.innerText = buttonState;
+//
+//        if(buttonState == true) {
+//            title.classList.remove('normal');
+//            debug.innerHTML = 'listening!';
+//
+//            if(title.classList.contains('red')) {
+//                title.classList.remove('red');
+//                title.classList.add('green');
+//                console.log('I see red! Deleting now.');
+//            } else {
+//                title.classList.add('green');
+//            }
+//        } else {
+//            title.classList.remove('green');
+//            title.classList.add('red');
+//            debug.innerHTML = 'not listening.';
+//        }
+//    });
+//
 
 
 
