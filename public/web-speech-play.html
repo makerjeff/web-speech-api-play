@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Spitch</title>
+    <style>
+        .normal {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .red {
+            background: rgba(255,0,0,1.0);
+        }
+
+        .green {
+            background: rgba(0,255,0,1.0);
+        }
+    </style>
 </head>
 <body>
 
 
 <div id="container">
-    <div id="title">Spitch Aye-Pee-Eye</div>
+    <div id="title" class="normal">Spitch Aye-Pee-Eye</div>
 
     <button id="start_button">start listening</button>
 
@@ -30,13 +43,32 @@
     //Jeff-Made-Buttons
     var buttonState = false;
     var startButton = document.getElementById('start_button');
+    var title = document.getElementById('title');
 
     //test
     startButton.addEventListener('click', function(e){
         buttonState = !buttonState;
         console.log(buttonState);
         startButton.innerText = buttonState;
+
+        if(buttonState == true) {
+            title.classList.remove('normal');
+
+            if(title.classList.contains('red')) {
+                title.classList.remove('red');
+                title.classList.add('green');
+                console.log('I see red! Deleting now.');
+            } else {
+                title.classList.add('green');
+            }
+        } else {
+            title.classList.remove('green');
+            title.classList.add('red');
+        }
     });
+
+
+
 
 </script>
 </body>
