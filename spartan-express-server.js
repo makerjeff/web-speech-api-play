@@ -83,7 +83,7 @@ app.get('/api/appdata', function(req, res){
             //console.log(data.toString());
             res.type('text/plain');
             res.send(data.toString());
-            console.log('data sent');
+            console.log('app data sent as plain text'.blue);
         }
     });
 });
