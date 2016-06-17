@@ -25,25 +25,23 @@
 
     <button id="start_button">start listening</button>
 
+    <div id="debug_messages"> debug </div>
 
 </div>
 
 
 <script>
 
-    if(!('webkitSpeechRecognition' in window)) {
-        upgrade();
-    } else {
-        var recog = new webkitSpeechRecognition();
-
-        recog.continuous = true;        //default to false, stops after user stops talking
-        recog.interimResults = true;    //default to false, does not show inbetween
-    }
+    // feed the right module into chrome
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
+    var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
     //Jeff-Made-Buttons
     var buttonState = false;
     var startButton = document.getElementById('start_button');
     var title = document.getElementById('title');
+    var debug = document.getElementById('debug_messages');
 
     //test
     startButton.addEventListener('click', function(e){
@@ -53,6 +51,7 @@
 
         if(buttonState == true) {
             title.classList.remove('normal');
+            debug.innerHTML = 'listening!';
 
             if(title.classList.contains('red')) {
                 title.classList.remove('red');
@@ -64,6 +63,7 @@
         } else {
             title.classList.remove('green');
             title.classList.add('red');
+            debug.innerHTML = 'not listening.';
         }
     });
 
