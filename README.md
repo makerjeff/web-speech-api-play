@@ -7,6 +7,7 @@
 ## Release History
 
 ## Notes
+- Adding Phaser 2.4.8
 
 **Uglify minifier:**
 

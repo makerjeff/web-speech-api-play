@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "latest",
     "colors": "latest",
-    "serve-favicon":"latest"
+    "serve-favicon":"latest",
+    "phaser":"latest"
   }
 }
