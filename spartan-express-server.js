@@ -118,7 +118,6 @@ function grabApplicationInfo(filename, dataObject){
 
             console.log(colors.rainbow('app name: ') + jsonObject.name);
             console.log(colors.rainbow('app version: ') + jsonObject.version);
-            console.log(colors.rainbow('private? ') + jsonObject.private);
 
             console.log(colors.rainbow('dependencies: '));
             for (var item in jsonObject.dependencies) {

@@ -2,30 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
     <title>Spitch</title>
     <style>
-        .normal {
-            background: rgba(0,0,0,0.1);
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body, html {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
 
-        .red {
-            background: rgba(255,0,0,1.0);
+        #container {
+            display: flex;
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
         }
 
-        .green {
-            background: rgba(0,255,0,1.0);
+        #title{
+            font-family: Montserrat, sans-serif;
         }
+
+        #debug_messages {
+            font-family: "Open Sans", sans-serif;
+        }
+
     </style>
 </head>
 <body>
 
 
 <div id="container">
-    <div id="title" class="normal">Spitch Aye-Pee-Eye</div>
+    <div id="title" class="normal">
+        <h1>Say Something.</h1>
+    </div>
 
-    <button id="start_button">start listening</button>
-
-    <div id="debug_messages"> debug </div>
+    <div id="debug_messages"> </div>
 
 </div>
 
@@ -46,16 +68,18 @@
     var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
     var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
+    // create speech recognition instance
     var recognition = new SpeechRecognition();
     var speechRecognitionList = new SpeechGrammarList();
 
+    // add grammar to grammars
     speechRecognitionList.addFromString(grammar, 1);
     recognition.grammars = speechRecognitionList;
 
     //set params
-    //recognition.continuous = true;
+    //recognition.continuous = true;  //hide this if no continuous
     recognition.lang = 'en-US';
-    recognition.interimResults = false;
+    recognition.interimResults = true;
     recognition.maxAlternatives = 1;
 
     var diagnostic = document.getElementById('debug_messages');
@@ -68,13 +92,14 @@
 
     recognition.onresult = function(e) {
         var color = e.results[0][0].transcript;
-        diagnostic.textContent = 'Result received: ' + color + '.';
+        diagnostic.textContent = 'Result received: ' + color + '. ';
         bg.style.backgroundColor = color;
         console.log('Confidence level: ' + event.results[0][0].confidence);
     };
 
     recognition.onspeechend = function() {
         recognition.stop();
+        console.log('Stopped listening.');
     };
 
     recognition.onnomatch = function(e){
