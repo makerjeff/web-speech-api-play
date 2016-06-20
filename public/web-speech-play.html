@@ -47,7 +47,7 @@
         <h1>Say Something.</h1>
     </div>
 
-    <div id="debug_messages"> </div>
+    <div id="debug_messages">&nbsp; </div>
 
 </div>
 
@@ -92,7 +92,7 @@
 
     recognition.onresult = function(e) {
         var color = e.results[0][0].transcript;
-        diagnostic.textContent = 'Result received: ' + color + '. ';
+        diagnostic.textContent = 'Result received: "' + color + '". ';
         bg.style.backgroundColor = color;
         console.log('Confidence level: ' + event.results[0][0].confidence);
     };
