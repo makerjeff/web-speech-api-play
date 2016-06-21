@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Analyser</title>
+
+    <style>
+        #mp3_player {
+            width: 500px;
+            height: 60px;
+
+            background: #000;
+            padding: 5px;
+            margin: 50px auto;
+
+        }
+
+        audio {
+            width: 500px;
+            background: #000;
+            float: left;
+        }
+
+        canvas {
+            width: 500px;
+            height: 500px;
+            background: #002D3C;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+
+<div id="mp3_player">
+    <div id="audio_box"></div>
+    <canvas id="analyser_render"></canvas>
+</div>
+
+<script>
+
+    // ===== create audio =====
+    var audio_box = document.getElementById('audio_box');
+    //create object instance
+    var audio = document.createElement('audio');
+    audio.src = '/audio/hero_quest.mp3';
+    audio.controls = true;
+    audio.loop = true;
+    //audio.autoplay = true;
+
+    var canvas = document.getElementById('analyser_render');
+    var canvasCtx = canvas.getContext('2d');
+
+
+    // ===== audio context =====
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var analyser = audioCtx.createAnalyser();
+
+    analyser.fftSize = 2048;
+
+    var bufferLength = analyser.frequencyBinCount;
+    var dataArray = new Uint8Array(bufferLength);
+    analyser.getByteTimeDomainData(dataArray);
+
+
+    // ===== event listeners =====
+    window.addEventListener('load', function(e){
+        //add audio to audiobox
+        audio_box.appendChild(audio);
+        draw();
+    });
+
+    //debug events
+    audio.addEventListener('canplaythrough', function(e){
+        console.log(this.src + ' can play through. Playing now.');
+        this.play();
+    });
+
+
+    // ====== functions ======
+    function draw() {
+        var drawVisual = requestAnimationFrame(draw);
+
+        analyser.getByteTimeDomainData(dataArray);
+
+        canvasCtx.fillStyle = ('rgb(200,200,200)');
+        canvasCtx.fillRect(0,0, canvas.width, canvas.height);
+
+        canvasCtx.lineWidth = 2;
+        canvasCtx.strokeStyle = 'rgb(0,0,0)';
+
+        canvasCtx.beginPath();
+
+        var sliceWidth = canvas.width * 1.0 / bufferLength;
+        var x = 0;
+
+        for (var i = 0; i < bufferLength; i++) {
+            var v = dataArray[i] / 128.0;
+            var y = v * canvas.height / 2;
+
+            if( i === 0) {
+                canvasCtx.moveTo(x,y);
+            } else {
+                canvasCtx.lineTo(x,y);
+            }
+
+            x += sliceWidth;
+        }
+
+        canvasCtx.lineTo(canvas.width, canvas.height/2);
+        canvasCtx.stroke();
+
+    }
+
+
+
+
+</script>
+
+</body>
+</html>
