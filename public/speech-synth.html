@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speech Synth</title>
+</head>
+<body>
+
+<div id="container">
+    <!--put stuff here-->
+</div>
+
+<script>
+
+    var images = [
+        {
+            name: 'evo',
+            fileUrl: './img/cars/evo-d.png'
+        },
+        {
+            name: 'g4',
+            fileUrl: './img/cars/evo-d.png'
+        },
+        {
+            name: 'iev',
+            fileUrl: './img/cars/evo-d.png'
+        },
+        {
+            name: 'lan',
+            fileUrl: './img/cars/evo-d.png'
+        },
+        {
+            name: 'mir',
+            fileUrl: './img/cars/evo-d.png'
+        },
+        {
+            name: 'osp',
+            fileUrl: './img/cars/evo-d.png'
+        }
+    ];
+
+
+
+
+    window.addEventListener('load', function(e){
+
+        console.log(e.type + ' fired. Everything loaded');
+
+
+        var utterance = new SpeechSynthesisUtterance();
+        var voices = window.speechSynthesis.getVoices();
+
+
+        //select the first returned array item as the voice
+        utterance.voice = voices.filter(function(data){return data.name == 'Alex';})[0];
+
+        //setup utterance attributes
+        utterance.text = 'Good morning Mr. Wu.  Welcome to work.';
+        //utterance.lang = 'en-US';
+        utterance.volume = 1;
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+
+        window.speechSynthesis.speak(utterance);
+
+        //utterance event listeners
+        utterance.addEventListener('start', function(e){
+            console.log('started talking.');
+            console.log(voices);
+
+
+        });
+
+        utterance.addEventListener('end', function(e){
+            console.log('I\'ve stopped yapping.');
+
+            // only listen when this has started
+            window.addEventListener('click', function(e){
+                window.speechSynthesis.speak(utterance);
+            });
+        });
+
+//        utterance.addEventListener('boundary', function(e){
+//            console.log('word break.');
+//        });
+
+
+    });
+
+
+    // default DOMCONTENT LOADED
+    window.addEventListener('DOMContentLoaded', function(e){
+        console.log(e.type + ' fired');
+    });
+
+
+
+
+
+    function loadAllImages(){
+        var container = document.getElementById('container');
+
+    }
+
+
+
+</script>
+
+</body>
+</html>
