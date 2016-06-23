@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Speech Synth</title>
+    <script src="./js/lib/TimelineLite.js"></script>
 </head>
 <body>
 
@@ -15,27 +16,27 @@
     var images = [
         {
             name: 'evo',
-            fileUrl: './img/cars/evo-d.png'
+            fileName: 'evo-d.png'
         },
         {
             name: 'g4',
-            fileUrl: './img/cars/evo-d.png'
+            fileName: 'g4-d.png'
         },
         {
             name: 'iev',
-            fileUrl: './img/cars/evo-d.png'
+            fileName: 'iev-d.png'
         },
         {
             name: 'lan',
-            fileUrl: './img/cars/evo-d.png'
+            fileName: 'lan-d.png'
         },
         {
             name: 'mir',
-            fileUrl: './img/cars/evo-d.png'
+            fileName: 'mir-d.png'
         },
         {
             name: 'osp',
-            fileUrl: './img/cars/evo-d.png'
+            fileName: 'osp-d.png'
         }
     ];
 
@@ -43,13 +44,10 @@
 
 
     window.addEventListener('load', function(e){
-
         console.log(e.type + ' fired. Everything loaded');
-
 
         var utterance = new SpeechSynthesisUtterance();
         var voices = window.speechSynthesis.getVoices();
-
 
         //select the first returned array item as the voice
         utterance.voice = voices.filter(function(data){return data.name == 'Alex';})[0];
@@ -61,28 +59,25 @@
         utterance.rate = 0.9;
         utterance.pitch = 1;
 
-        window.speechSynthesis.speak(utterance);
+        //window.speechSynthesis.speak(utterance);
 
         //utterance event listeners
         utterance.addEventListener('start', function(e){
             console.log('started talking.');
             console.log(voices);
-
-
         });
 
         utterance.addEventListener('end', function(e){
             console.log('I\'ve stopped yapping.');
-
-            // only listen when this has started
-            window.addEventListener('click', function(e){
-                window.speechSynthesis.speak(utterance);
-            });
         });
 
 //        utterance.addEventListener('boundary', function(e){
 //            console.log('word break.');
 //        });
+
+        loadAllImages(images);
+
+        animateImages();
 
 
     });
@@ -94,15 +89,17 @@
     });
 
 
-
-
-
-    function loadAllImages(){
+    function loadAllImages(array){
         var container = document.getElementById('container');
 
+        array.forEach(function(element, index, array){
+            var img = document.createElement('img');
+            img.id = array[index].name;
+            img.src = './img/cars/' + array[index].fileName;
+
+            container.appendChild(img);
+        });
     }
-
-
 
 </script>
 
