@@ -25,5 +25,7 @@
 - [MDN: AudioContext ](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createAnalyser) 
 - [TeamTreeHouse: Speech Synthesis: Getting Started](http://blog.teamtreehouse.com/getting-started-speech-synthesis-api)
 - [JS Array.filter()](http://www.w3schools.com/jsref/jsref_filter.asp) **(UTILITY)**
+- [Promisifying XHR](http://www.html5rocks.com/en/tutorials/es6/promises/) **(JS fundamental)**
+
 
 
