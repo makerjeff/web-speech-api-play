@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blur!</title>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700,800,600' rel='stylesheet' type='text/css'>
+
+
+
+    <style>
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            display: flex;
+            height: 100%;
+            width: 100%;
+
+            font-size: 16px;
+
+
+
+
+        }
+
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+        }
+
+        #box {
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            width: 800px;
+            height: 400px;
+
+            margin: 0;
+            padding: 50px 50px 50px 50px;
+
+            background: rgba(100,200,255,1.0);
+
+            border-radius: 5px;
+
+            box-shadow: 1px 2px 2px rgba(20,20,20,0.3);
+        }
+
+        #title {
+            font-family: Montserrat, sans-serif;
+            padding: 0px 0px 20px 0px;
+
+        }
+
+        p {
+            line-height: 1.5em;
+            font-family: "Open Sans", sans-serif;
+        }
+
+
+
+
+        .veilShow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+
+            background: rgba(0,0,0,0.8);
+
+            z-index: 100;
+
+            transition: background 0.5s ease;
+
+        }
+
+        .veilHide{
+            background: rgba(0,0,0,0.0);
+            transition: background 0.5s ease;
+        }
+
+
+        .blurred {
+            -webkit-filter: blur(10px);
+            filter: blur(10px);
+            transition: -webkit-filter 0.5s ease, filter 0.5s ;
+        }
+
+        .notBlurred {
+            -webkit-filter: blur(0px);
+            filter: blur(0px);
+            transition: -webkit-filter 0.5s ease, filter 0.5s;
+        }
+
+        #pause_container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #pause_text {
+            display: flex;
+            width: 100%;
+            height: 100%;
+
+
+        }
+
+    </style>
+</head>
+<body>
+
+<!--<div id="pause_container">-->
+    <!--<div id="pause_text">-->
+        <!--<p>PAUSED</p>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div id="theVeil" class="veilHide"></div>
+
+<div id="container" class="notBlurred">
+    <div id="box">
+        <h1 id="title">A Title!</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+
+</div>
+
+
+
+<script>
+    var container = document.getElementById('container');
+    var box = document.getElementById('box');
+    var tempVeil = document.getElementById('theVeil');
+
+    container.addEventListener('click', function(e){
+        if(container.classList.contains('blurred')) {
+            container.classList.remove('blurred');
+        }
+        console.log(e.target.id + ' clicked');
+    });
+
+
+    tempVeil.addEventListener('click', function(e){
+
+        if(container.classList.contains('blurred')) {
+            container.classList.remove('blurred');
+            container.classList.add('notBlurred');
+
+            this.classList.remove('veilShow');
+            this.classList.add('veilHide');
+
+            this.addEventListener('transitionend', function(e){
+                console.log('transition ended. removing class');
+                this.parentNode.removeChild(this);
+            });
+        }
+        console.log(e.target.id + ' clicked. should close');
+
+    });
+
+    box.addEventListener('mouseover', function(e){
+        if(!container.classList.contains('blurred')){
+            this.classList.remove('notBlurred');
+            this.classList.add('blurred');
+        }
+        console.log('mouse went over the hill!');
+    });
+
+    box.addEventListener('mouseout', function(e){
+        this.classList.remove('blurred');
+        this.classList.add('notBlurred');
+
+    });
+
+
+    function pauseEverything(){
+        var veil = document.createElement('div');
+        veil.classList.add('blurred');
+
+
+    }
+
+</script>
+
+
+</body>
+</html>
