@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>soundboard</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #container {
+            display: flex;
+        }
+
+        .button {
+
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="container">
+
+</div>
+
+
+<script>
+    //temp script, convert this to TS
+    var container = document.getElementById('container');
+
+    //create promise
+    var promise = new Promise(function(resolve, reject){
+        //DO SOMETHING
+        var randomNumber = Math.floor(Math.random() * 100);
+        //DECIDE TO RESOLVE OR REJECT
+        if(randomNumber >= 50) {
+            resolve('I am 50+ and I have resolved! ' + randomNumber);
+        } else {
+            reject(Error('I failed to reach 50. ' + randomNumber));
+        }
+    });
+
+
+
+    //consume promise
+
+    promise.then(success, failure);
+
+    function success(result){
+        console.log(result + '. This Promise resolved successfully!');
+    }
+
+    function failure(result){
+        console.log(result + '. This Promise was a failure.');
+    }
+
+
+    // play with XHR2
+    var oReq = new XMLHttpRequest();
+
+    oReq.addEventListener('progress', updateProgress);
+    oReq.addEventListener('load', transferComplete);
+    oReq.addEventListener('error', transferFailed);
+    oReq.addEventListener('abort', transferCanceled);
+
+    function updateProgress(oEvent){
+        if(oEvent.lengthComputable){
+            var percentComplete = oEvent.loaded / oEvent.total;
+            console.log((percentComplete * 100).toFixed(2) + '%');
+        } else {
+            console.log('size unknown');
+        }
+    }
+
+    function transferComplete(evt){
+        console.log('File download completed!');
+
+    }
+
+    function transferFailed(evt){
+
+    }
+
+    function transferCanceled(evt){
+
+    }
+
+    //open after event listeners
+    oReq.open('GET','http://localhost:3000/video/PICNIC_RECUT_v010.mp4');
+    oReq.send();
+
+
+
+</script>
+
+</body>
+</html>
