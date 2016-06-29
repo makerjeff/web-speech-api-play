@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analyser + Split()</title>
+</head>
+<body>
+
+<script>
+
+    //create divs
+    var mp3_player = document.createElement('div');
+    var audio_box = document.createElement('div');
+    var audio = document.createElement('audio');
+
+    audio.src ='./audio/music/hero_quest.mp3';
+    audio.controls = true;
+    audio.loop = true;
+    audio.autoplay = true;
+
+    audio_box.appendChild(audio);
+    mp3_player.appendChild(audio_box);
+    document.body.appendChild(mp3_player);
+
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var analyser = audioCtx.createAnalyser();
+
+    // audio context
+
+
+    analyser.fftSize = 2048;
+    var bufferLength = analyser.frequencyBinCount;
+    var dataArray = new Uint8Array(bufferLength);
+    analyser.getByteTimeDomainData(dataArray);
+
+    //draw oscilliscope
+
+    var canvas = document.createElement('canvas');
+
+    document.body.appendChild(canvas);
+
+    canvas.width = 1024;
+    canvas.height = 600;
+
+    var ctx = canvas.getContext('2d');
+
+
+    //functions
+    function draw() {
+        drawVisual = requestAnimationFrame(draw);
+
+        analyser.getByteTimeDomainData(dataArray);
+
+        //draw background
+        ctx.fillStyle = 'rgb(200,200,200)';
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+
+        //set line style
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgb(0,0,0)';
+
+        //begin drawing
+        ctx.beginPath();
+
+        var sliceWidth = canvas.width / bufferLength;
+
+        //set zero
+        var x = 0;
+
+        for(var i = 0; i < bufferLength; i++) {
+
+            var v = dataArray[i] / 128.0;
+            var y = v * canvas.height / 2 ;
+
+            if(i === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+
+            //iteratively add to zero
+            x += sliceWidth;
+        }
+
+        ctx.filleStyle = 'rgb(255,0,0)';
+        ctx.font = '30px Arial';
+        ctx.fillText(audioCtx.currentTime, 0, 0);
+
+
+        console.log(audioCtx.currentTime.toFixed(2));
+
+
+    }
+
+    // run time
+    draw();
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

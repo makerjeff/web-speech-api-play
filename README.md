@@ -34,6 +34,7 @@
 
 ### WEB GOODIES
 - [JS Array.filter()](http://www.w3schools.com/jsref/jsref_filter.asp) **(UTILITY)**
+- [JS String.split()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split)
 - [Promisifying XHR](http://www.html5rocks.com/en/tutorials/es6/promises/) **(JS fundamental)**
 - [Vibration API](https://davidwalsh.name/vibration-api)
 
